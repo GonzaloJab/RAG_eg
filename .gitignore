@@ -1,0 +1,6 @@
+chroma*
+docs/*
+
+
+.cursorignore
+.env
