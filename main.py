@@ -1,5 +1,6 @@
 import streamlit as st
 from datetime import datetime
+import time
 from core import runn_llm
 
 def main():
@@ -94,12 +95,17 @@ def main():
             # Process the query using core.py function
             with st.spinner("Processing your question..."):
                 try:
+                    # Start timing
+                    start_time = time.time()
                     response = runn_llm(user_input,st.session_state.chat_history)
+                    # End timing
+                    elapsed_time = time.time() - start_time
                     
-                    # Add assistant response to history
+                    # Add assistant response to history with elapsed time
+                    response_with_time = f"{response}\n\n⏱️ Response time: {elapsed_time:.2f} seconds"
                     st.session_state.messages.append({
                         "role": "assistant",
-                        "content": response,
+                        "content": response_with_time,
                         "timestamp": datetime.now()
                     })
                     st.session_state.chat_history.append({"role": "assistant", "content": response})
